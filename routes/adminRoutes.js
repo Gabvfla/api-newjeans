@@ -1,0 +1,1 @@
+// vou criar as rotas para os adms
