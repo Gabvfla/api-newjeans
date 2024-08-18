@@ -1,18 +1,25 @@
 const express = require('express');
 const connectDB = require('./config/db');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const createFirstAdmin = require('./utils/FirstAdmin');
 
 const app = express();
 
 // Conecta ao MongoDB
 connectDB();
 
+// Cria o primeiro adm
+createFirstAdmin();
+
 // Middleware para leitura de JSON
 app.use(express.json());
 
 // Rotas
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/users', require('./routes/userRoutes')); // Adiciona as rotas de usuário
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes); 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+console.log('testando ' + process.env.TESTE);

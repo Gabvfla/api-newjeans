@@ -1,5 +1,4 @@
 // controle dos usuários que estão no banco de dados
-
 const User = require('../models/userModel');
 
 // Obter dados do usuário autenticado
@@ -48,6 +47,22 @@ exports.getAllUsers = async (req, res) => {
 
     const users = await User.find().select('-password');
     res.json(users);
+  } catch (err) {
+    res.status(500).json({ msg: 'Erro no servidor' });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res.status(403).json({ msg: 'Acesso negado. Somente administradores podem acessar.' });
+    }
+
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ msg: 'Usuário não encontrado' });
+
+    res.json({ msg: 'Usuário deletado' });
   } catch (err) {
     res.status(500).json({ msg: 'Erro no servidor' });
   }
