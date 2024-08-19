@@ -1,6 +1,6 @@
 // rotas de usuarios
 const express = require('express');
-const { getUser, updateUser, getAllUsers } = require('../controllers/userController');
+const { getUser, updateUser, getAllUsers, deleteUser } = require('../controllers/userController');
 const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 

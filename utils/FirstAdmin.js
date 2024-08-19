@@ -5,7 +5,7 @@ const createFirstAdmin = async () => {
         const adminExists = await User.findOne({ isAdmin: true });
         if (!adminExists) {
             const admin = new User({
-                username: 'Administrador',
+                name: 'Administrador',
                 email: 'admin@newjeans.com',
                 password: 'bunnys', 
                 isAdmin: true

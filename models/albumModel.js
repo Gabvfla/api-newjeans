@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const AlbumSchema = new mongoose.Schema({
   title: { type: String, required: true }, // Título do álbum
+  artist: { type: String, required: true }, // Artista (NewJeans)
   releaseDate: { type: Date, required: true }, // Data de lançamento do álbum
   genre: { type: String },  // Gênero predominante do álbum
   coverImage: { type: String }, // URL da imagem de capa do álbum
