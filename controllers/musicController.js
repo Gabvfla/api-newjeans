@@ -8,7 +8,7 @@ exports.addMusic = async (req, res) => {
 
   try {
     const newMusic = new Music({ title, artist, album, releaseDate, genre, duration, lyrics });
-    const music = await newMusic.save();
+    const music = await newMusic.create();
 
     if (album) {
       // Adicionar música à lista de faixas do álbum

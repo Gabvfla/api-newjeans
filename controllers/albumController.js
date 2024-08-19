@@ -7,7 +7,7 @@ exports.addAlbum = async (req, res) => {
 
   try {
     const newAlbum = new Album({ title, releaseDate, genre, coverImage });
-    const album = await newAlbum.save();
+    const album = await newAlbum.create();
     res.json(album);
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao criar o álbum', error: err.message });
