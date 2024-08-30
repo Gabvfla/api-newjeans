@@ -1,6 +1,6 @@
 // Banco de Dados moongose
 const mongoose = require('mongoose');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 const connectDB = async () => {
   try {

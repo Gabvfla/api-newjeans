@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const createFirstAdmin = require('./utils/FirstAdmin');
 const albumRoutes = require('./routes/albumRoutes');
 const musicRoutes = require('./routes/musicRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -20,9 +21,10 @@ app.use(express.json());
 
 // Rotas
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes); 
-app.use('/api/albums', albumRoutes);
-app.use('/api/musics', musicRoutes);
+app.use('/api/user', userRoutes); 
+app.use('/api/album', albumRoutes);
+app.use('/api/music', musicRoutes);
+app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

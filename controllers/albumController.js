@@ -3,11 +3,11 @@ const Music = require('../models/musicModel');
 
 // Adicionar novo álbum
 exports.addAlbum = async (req, res) => {
-  const { title, releaseDate, genre, coverImage } = req.body;
+  const { title, artist, releaseDate, genre, coverImage } = req.body;
 
   try {
-    const newAlbum = new Album({ title, releaseDate, genre, coverImage });
-    const album = await newAlbum.create();
+    const newAlbum = new Album({ title, artist, releaseDate, genre, coverImage });
+    const album = await newAlbum.save();
     res.json(album);
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao criar o álbum', error: err.message });
@@ -37,13 +37,14 @@ exports.getAlbum = async (req, res) => {
 
 // Atualizar álbum
 exports.updateAlbum = async (req, res) => {
-  const { title, releaseDate, genre, coverImage } = req.body;
+  const { title, artist, releaseDate, genre, coverImage } = req.body;
 
   try {
     let album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 
     album.title = title || album.title;
+    album.artist = artist || album.artist
     album.releaseDate = releaseDate || album.releaseDate;
     album.genre = genre || album.genre;
     album.coverImage = coverImage || album.coverImage;

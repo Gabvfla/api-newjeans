@@ -1,4 +1,6 @@
 const User = require('../models/userModel');
+const dotenv = require('dotenv').config();
+
 
 const createFirstAdmin = async () => {
     try {
@@ -6,8 +8,8 @@ const createFirstAdmin = async () => {
         if (!adminExists) {
             const admin = new User({
                 name: 'Administrador',
-                email: 'admin@newjeans.com',
-                password: 'bunnys', 
+                email: process.env.EMAIL_ADMIN,
+                password: process.env.SENHA_ADMIN, 
                 isAdmin: true
             });
             await admin.save();

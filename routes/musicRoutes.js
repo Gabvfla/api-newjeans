@@ -6,18 +6,18 @@ const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Adicionar nova música (somente admin)
-router.post('/music', auth, addMusic);
+router.post('/', auth, addMusic);
 
 // Obter todas as músicas
-router.get('/music', getAllMusic);
+router.get('/', getAllMusic);
 
 // Obter uma música específica
-router.get('/music/:id', getMusic);
+router.get('/:id', getMusic);
 
 // Atualizar música (somente admin)
-router.put('/music/:id', auth, updateMusic);
+router.put('/:id', auth, updateMusic);
 
 // Deletar música (somente admin)
-router.delete('/music/:id', auth, deleteMusic);
+router.delete('/:id', auth, deleteMusic);
 
 module.exports = router;

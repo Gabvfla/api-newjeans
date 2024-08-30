@@ -1,19 +1,16 @@
 // rotas de usuarios
 const express = require('express');
-const { getUser, updateUser, getAllUsers, deleteUser } = require('../controllers/userController');
+const { getUser, updateUser, deleteUser } = require('../controllers/userController');
 const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Rota para pegar o perfil do usuário autenticado
-router.get('/user', auth, getUser);
+router.get('/me', auth, getUser);
 
 // Rota para editar o perfil do usuário autenticado
-router.put('/user', auth, updateUser);
-
-// Rota para pegar todos os usuários (somente admin)
-router.get('/users', auth, getAllUsers);
+router.put('/:id', auth, updateUser);
 
 // Rota para deletar um usuário (somente admin)
-router.delete('/user/:id', auth, deleteUser);
+router.delete('/:id', auth, deleteUser);
 
 module.exports = router;

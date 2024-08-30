@@ -4,11 +4,11 @@ const Album = require('../models/albumModel');
 
 // Adicionar nova música e associá-la a um álbum
 exports.addMusic = async (req, res) => {
-  const { title, artist, album, releaseDate, genre, duration, lyrics } = req.body;
+  const { title, album, duration } = req.body;
 
   try {
-    const newMusic = new Music({ title, artist, album, releaseDate, genre, duration, lyrics });
-    const music = await newMusic.create();
+    const newMusic = new Music({ title, album, duration });
+    const music = await newMusic.save();
 
     if (album) {
       // Adicionar música à lista de faixas do álbum
@@ -48,19 +48,15 @@ exports.getMusic = async (req, res) => {
 
 // Atualizar uma música
 exports.updateMusic = async (req, res) => {
-  const { title, artist, album, releaseDate, genre, duration, lyrics } = req.body;
+  const { title, album, duration } = req.body;
 
   try {
     let music = await Music.findById(req.params.id);
     if (!music) return res.status(404).json({ msg: 'Música não encontrada' });
 
     music.title = title || music.title;
-    music.artist = artist || music.artist;
     music.album = album || music.album;
-    music.releaseDate = releaseDate || music.releaseDate;
-    music.genre = genre || music.genre;
     music.duration = duration || music.duration;
-    music.lyrics = lyrics || music.lyrics;
 
     await music.save();
     res.json(music);
