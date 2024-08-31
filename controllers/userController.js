@@ -51,7 +51,7 @@ exports.updateUser = async (req, res) => {
     await user.save();
     res.json(user);
   } catch (err) {
-    console.error(err); // Log detalhado para depuração
+    console.error(err);
     res.status(500).json({ msg: "Erro no servidor" });
   }
 };

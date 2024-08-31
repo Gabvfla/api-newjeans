@@ -3,10 +3,10 @@ const Music = require('../models/musicModel');
 
 // Adicionar novo álbum
 exports.addAlbum = async (req, res) => {
-  const { title, artist, releaseDate, genre, coverImage } = req.body;
+  const { title, releaseDate, genre, coverImage } = req.body;
 
   try {
-    const newAlbum = new Album({ title, artist, releaseDate, genre, coverImage });
+    const newAlbum = new Album({ title, releaseDate, genre, coverImage });
     const album = await newAlbum.save();
     res.json(album);
   } catch (err) {
@@ -14,10 +14,21 @@ exports.addAlbum = async (req, res) => {
   }
 };
 
-// Obter todos os álbuns
+// Obter todos os álbuns com paginação
 exports.getAllAlbums = async (req, res) => {
+  const { limite = 10, página = 1 } = req.query;
+  const limit = parseInt(limite);
+  const page = parseInt(página);
+
+  if (![5, 10, 30].includes(limit)) {
+    return res.status(400).json({ msg: 'O parâmetro limite deve ser 5, 10 ou 30' });
+  }
+
   try {
-    const albums = await Album.find().populate('tracks'); 
+    const albums = await Album.find()
+      .populate('tracks')
+      .limit(limit)
+      .skip((page - 1) * limit);
     res.json(albums);
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao buscar os álbuns', error: err.message });
@@ -37,14 +48,13 @@ exports.getAlbum = async (req, res) => {
 
 // Atualizar álbum
 exports.updateAlbum = async (req, res) => {
-  const { title, artist, releaseDate, genre, coverImage } = req.body;
+  const { title, releaseDate, genre, coverImage } = req.body;
 
   try {
     let album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 
     album.title = title || album.title;
-    album.artist = artist || album.artist
     album.releaseDate = releaseDate || album.releaseDate;
     album.genre = genre || album.genre;
     album.coverImage = coverImage || album.coverImage;

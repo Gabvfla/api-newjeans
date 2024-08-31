@@ -1,5 +1,3 @@
-// rotas das musicas
-
 const express = require('express');
 const { addMusic, getMusic, updateMusic, deleteMusic, getAllMusic } = require('../controllers/musicController');
 const auth = require('../middleware/authMiddleware');
@@ -8,8 +6,8 @@ const router = express.Router();
 // Adicionar nova música (somente admin)
 router.post('/', auth, addMusic);
 
-// Obter todas as músicas
-router.get('/', getAllMusic);
+// Obter todas as músicas com paginação
+router.get('/', getAllMusic); // Ajustado para aceitar parâmetros de paginação
 
 // Obter uma música específica
 router.get('/:id', getMusic);
@@ -21,3 +19,4 @@ router.put('/:id', auth, updateMusic);
 router.delete('/:id', auth, deleteMusic);
 
 module.exports = router;
+

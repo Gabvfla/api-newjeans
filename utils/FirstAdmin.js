@@ -1,7 +1,6 @@
 const User = require('../models/userModel');
 const dotenv = require('dotenv').config();
 
-
 const createFirstAdmin = async () => {
     try {
         const adminExists = await User.findOne({ isAdmin: true });

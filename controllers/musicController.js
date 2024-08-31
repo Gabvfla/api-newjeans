@@ -25,10 +25,21 @@ exports.addMusic = async (req, res) => {
   }
 };
 
-// Obter todas as músicas
+// Obter todas as músicas com paginação
 exports.getAllMusic = async (req, res) => {
+  const { limite = 10, página = 1 } = req.query;
+  const limit = parseInt(limite);
+  const page = parseInt(página);
+
+  if (![5, 10, 30].includes(limit)) {
+    return res.status(400).json({ msg: 'O parâmetro limite deve ser 5, 10 ou 30' });
+  }
+
   try {
-    const musics = await Music.find().populate('album'); // Popula o álbum relacionado à música
+    const musics = await Music.find()
+      .populate('album') 
+      .limit(limit)
+      .skip((page - 1) * limit);
     res.json(musics);
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao buscar as músicas', error: err.message });

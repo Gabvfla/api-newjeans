@@ -1,4 +1,3 @@
-// vou criar as rotas para os adms
 const express = require('express');
 const { createAdmin, getAllUsers } = require('../controllers/adminController');
 const auth = require('../middleware/authMiddleware');

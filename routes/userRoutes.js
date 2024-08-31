@@ -1,4 +1,3 @@
-// rotas de usuarios
 const express = require('express');
 const { getUser, updateUser, deleteUser } = require('../controllers/userController');
 const auth = require('../middleware/authMiddleware');

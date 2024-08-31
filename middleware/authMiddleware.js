@@ -1,5 +1,3 @@
-//middleware para verificar se o token é válido
-
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
