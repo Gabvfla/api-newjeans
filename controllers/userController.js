@@ -17,22 +17,13 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    // Verifica o ID do usuário autenticado
-    const authenticatedUserId = req.params.id;
+    const adminUser = await User.findById(req.user);
     const requestedUserId = req.params.id;
-
-    // Busca o usuário autenticado
-    const adminUser = await User.findById(authenticatedUserId);
-    if (!adminUser) return res.status(404).json({ msg: "Usuário autenticado não encontrado" });
-
-    // Verifica se o usuário autenticado é admin
-    const isAdmin = adminUser.isAdmin;
-
-    // Permitir atualização apenas se for o próprio usuário ou um admin
-    if (!isAdmin && authenticatedUserId !== requestedUserId) {
-      return res.status(403).json({ msg: "Acesso negado. Você só pode atualizar seu próprio perfil." });
+        
+    // Verifica se o usuário logado é um administrador ou se está tentando editar seu próprio perfil
+    if (!adminUser || (!adminUser.isAdmin && adminUser._id.toString() !== req.params.id)) {
+        return res.status(403).json({ msg: 'Acesso negado. Você só pode editar seu próprio perfil.' });
     }
-
     // Busca o usuário a ser atualizado
     let user = await User.findById(requestedUserId);
     if (!user) return res.status(404).json({ msg: "Usuário não encontrado" });

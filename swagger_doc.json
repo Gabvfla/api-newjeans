@@ -11,6 +11,19 @@
     }
   ],
   "paths": {
+    "/install": {
+      "get": {
+        "summary": "Instalar o banco de dados",
+        "responses": {
+          "200": {
+            "description": "Banco de dados instalado com sucesso"
+          },
+          "500": {
+            "description": "Erro na instalação do banco de dados"
+          }
+        }
+      }
+    },
     "/auth/register": {
       "post": {
         "summary": "Registrar um novo usuário",
@@ -44,11 +57,11 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "janedoe@example.com"
+                    "example": "gabriel@newjeans.com"
                   },
                   "password": {
                     "type": "string",
-                    "example": "password123"
+                    "example": "bunnys"
                   }
                 },
                 "required": ["email", "password"]
@@ -729,19 +742,6 @@
         }
       }
     },
-    "/install": {
-      "get": {
-        "summary": "Instalar o banco de dados",
-        "responses": {
-          "200": {
-            "description": "Banco de dados instalado com sucesso"
-          },
-          "500": {
-            "description": "Erro na instalação do banco de dados"
-          }
-        }
-      }
-    },
     "/admin": {
       "get": {
         "summary": "Obter todos os usuários",
@@ -1019,11 +1019,6 @@
     "User": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e8d"
-        },
         "name": {
           "type": "string",
           "example": "Hanni"

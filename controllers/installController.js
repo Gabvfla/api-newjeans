@@ -4,7 +4,7 @@ const Music = require('../models/musicModel');
 const User = require('../models/userModel');
 const Playlist = require('../models/playlistModel');
 const createFirstAdmin = require('../utils/FirstAdmin');
-const createFirstUsers = require('../utils/FirstUsers');
+const createFirstUser = require('../utils/FirstUser');
 const bcrypt = require('bcrypt');
 
 const installDatabase = async (req, res) => {
@@ -76,7 +76,7 @@ const installDatabase = async (req, res) => {
 
         // Cria o Admin e os Usuários
         await createFirstAdmin(); 
-        await createFirstUsers();
+        await createFirstUser();
 
         res.status(200).json({ message: 'Banco de dados instalado com sucesso' });
     } catch (error) {
