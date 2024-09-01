@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', auth, addMusic);
 
 // Obter todas as músicas com paginação
-router.get('/', getAllMusic); // Ajustado para aceitar parâmetros de paginação
+router.get('/', getAllMusic);
 
 // Obter uma música específica
 router.get('/:id', getMusic);

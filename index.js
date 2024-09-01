@@ -8,6 +8,8 @@ const musicRoutes = require('./routes/musicRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const installRoutes = require('./routes/installRoutes');
 const memberRoutes = require('./routes/memberRoutes');
+const playlistRoutes = require('./routes/playlistRoutes');
+const swaggerUi = require('./routes/swaggerRoute');
 const app = express();
 
 
@@ -25,6 +27,8 @@ app.use('/api/music', musicRoutes);
 app.use('/api/member', memberRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/install', installRoutes);
+app.use('/api/playlist', playlistRoutes);
+app.use('/api/docs', swaggerUi);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

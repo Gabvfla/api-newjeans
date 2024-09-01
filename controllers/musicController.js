@@ -1,12 +1,19 @@
 // Pretendo que esse arquivo controle as musicas que estão no banco de dados
 const Music = require('../models/musicModel');
 const Album = require('../models/albumModel');
+const User = require('../models/userModel');
 
 // Adicionar nova música e associá-la a um álbum
 exports.addMusic = async (req, res) => {
   const { title, album, duration } = req.body;
 
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem adicionar novas músicas." });
+    }
     const newMusic = new Music({ title, album, duration });
     const music = await newMusic.save();
 
@@ -62,6 +69,12 @@ exports.updateMusic = async (req, res) => {
   const { title, album, duration } = req.body;
 
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem atualizar músicas." });
+    }
     let music = await Music.findById(req.params.id);
     if (!music) return res.status(404).json({ msg: 'Música não encontrada' });
 
@@ -79,6 +92,12 @@ exports.updateMusic = async (req, res) => {
 // Deletar música
 exports.deleteMusic = async (req, res) => {
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem deletar músicas." });
+    }
     const music = await Music.findById(req.params.id);
     if (!music) return res.status(404).json({ msg: 'Música não encontrada' });
 
@@ -91,7 +110,8 @@ exports.deleteMusic = async (req, res) => {
       }
     }
 
-    await music.remove();
+    // Deletar a música
+    await Music.findByIdAndDelete(req.params.id);
     res.json({ msg: 'Música deletada com sucesso' });
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao deletar a música', error: err.message });

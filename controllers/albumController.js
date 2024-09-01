@@ -1,11 +1,18 @@
 const Album = require('../models/albumModel');
 const Music = require('../models/musicModel');
+const User = require("../models/userModel");
 
 // Adicionar novo álbum
 exports.addAlbum = async (req, res) => {
   const { title, releaseDate, genre, coverImage } = req.body;
 
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem adicionar albums." });
+    }
     const newAlbum = new Album({ title, releaseDate, genre, coverImage });
     const album = await newAlbum.save();
     res.json(album);
@@ -49,8 +56,14 @@ exports.getAlbum = async (req, res) => {
 // Atualizar álbum
 exports.updateAlbum = async (req, res) => {
   const { title, releaseDate, genre, coverImage } = req.body;
-
+  
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem editar albums." });
+    }
     let album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 
@@ -69,13 +82,20 @@ exports.updateAlbum = async (req, res) => {
 // Deletar álbum
 exports.deleteAlbum = async (req, res) => {
   try {
+    const adminUser = await User.findById(req.user);
+    if (!adminUser || !adminUser.isAdmin) {
+      return res
+        .status(403)
+        .json({ msg: "Acesso negado. Somente administradores podem deletar albums." });
+    }
     const album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 
     // Remover músicas do álbum
     await Music.deleteMany({ album: album._id });
 
-    await album.remove();
+    // Deletar o álbum
+    await Album.findByIdAndDelete(req.params.id);
     res.json({ msg: 'Álbum deletado com sucesso' });
   } catch (err) {
     res.status(500).json({ msg: 'Erro ao deletar o álbum', error: err.message });

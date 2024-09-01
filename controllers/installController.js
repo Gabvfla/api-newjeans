@@ -2,6 +2,7 @@ const Member = require('../models/memberModel');
 const Album = require('../models/albumModel');
 const Music = require('../models/musicModel');
 const User = require('../models/userModel');
+const Playlist = require('../models/playlistModel');
 const createFirstAdmin = require('../utils/FirstAdmin');
 const createFirstUsers = require('../utils/FirstUsers');
 const bcrypt = require('bcrypt');
@@ -13,6 +14,8 @@ const installDatabase = async (req, res) => {
         await Album.deleteMany({});
         await Music.deleteMany({});
         await User.deleteMany({}); 
+        await Playlist.deleteMany({});
+
 
         // Define os membros do NewJeans
         const membersData = [
