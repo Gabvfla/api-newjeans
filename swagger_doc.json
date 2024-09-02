@@ -10,10 +10,48 @@
       "url": "/api"
     }
   ],
+  "tags": [
+    {
+      "name": "Instalação",
+      "description": "🔧 Parte Dedicada para Instalar o Banco de Dados e os Primeiros Usuários (1 ADM e 1 Usuario Comum). 🔧"
+    },
+    {
+      "name": "Autenticação",
+      "description": "🔐  login e registro Usando os tokens de autenticação. 🔐 "
+    },
+    {
+      "name": "Usuários",
+      "description": "👤 Ver seu próprio perfil, editar informações e deletar caso precise. 👤"
+    },
+    {
+      "name": "Álbuns",
+      "description": "🎵 Crie e gerencie álbuns do grupo Newjeans 🐰[Usuários comuns podem apenas ver os álbuns]. 🎵"
+    },
+    {
+      "name": "Músicas",
+      "description": "🎼 Adicione e gerencia as músicas do grupo Newjeans 🐰 [Usuários comuns podem apenas ver as músicas]. 🎼 "
+    },
+    {
+      "name": "Playlists",
+      "description": "🎶 Você pode criar sua playlist com as músicas favoritas do Newjeans 🐰. 🎶 "
+    },
+    {
+      "name": "Membros",
+      "description": "🧑‍🎤 Conheça as integrantes! [Usuários comuns podem apenas ver as membros]. 🧑‍🎤"
+    },
+    {
+      "name": "Administração",
+      "description": "🛠️ Para administradores poderem criar outros adms e ver todos usuários. 🛠️"
+    }
+  ],
+
   "paths": {
     "/install": {
       "get": {
         "summary": "Instalar o banco de dados",
+        "tags": [
+          "Instalação"
+        ],
         "responses": {
           "200": {
             "description": "Banco de dados instalado com sucesso"
@@ -27,6 +65,9 @@
     "/auth/register": {
       "post": {
         "summary": "Registrar um novo usuário",
+        "tags": [
+          "Autenticação"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -49,6 +90,9 @@
     "/auth/login": {
       "post": {
         "summary": "Login de usuário",
+        "tags": [
+          "Autenticação"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -79,105 +123,12 @@
         }
       }
     },
-    "/user/me": {
-      "get": {
-        "summary": "Obter perfil do usuário autenticado",
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Perfil do usuário retornado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Usuário não autenticado"
-          }
-        }
-      }
-    },
-    "/user/{id}": {
-      "put": {
-        "summary": "Atualizar perfil do usuário",
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "objectId"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Perfil do usuário atualizado com sucesso"
-          },
-          "400": {
-            "description": "Erro na atualização do perfil"
-          },
-          "404": {
-            "description": "Usuário não encontrado"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Deletar um usuário",
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "objectId"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usuário deletado com sucesso"
-          },
-          "404": {
-            "description": "Usuário não encontrado"
-          },
-          "403": {
-            "description": "Acesso negado"
-          }
-        }
-      }
-    },
     "/album": {
       "post": {
         "summary": "Adicionar um novo álbum",
+        "tags": [
+          "Álbuns"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -203,6 +154,9 @@
       },
       "get": {
         "summary": "Listar todos os álbuns com paginação",
+        "tags": [
+          "Álbuns"
+        ],
         "parameters": [
           {
             "name": "limite",
@@ -242,6 +196,9 @@
     "/album/{id}": {
       "get": {
         "summary": "Obter um álbum específico",
+        "tags": [
+          "Álbuns"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -271,6 +228,9 @@
       },
       "put": {
         "summary": "Atualizar um álbum",
+        "tags": [
+          "Álbuns"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -310,6 +270,9 @@
       },
       "delete": {
         "summary": "Deletar um álbum",
+        "tags": [
+          "Álbuns"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -342,6 +305,9 @@
     "/music": {
       "post": {
         "summary": "Adicionar uma nova música",
+        "tags": [
+          "Músicas"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -367,6 +333,9 @@
       },
       "get": {
         "summary": "Listar todas as músicas com paginação",
+        "tags": [
+          "Músicas"
+        ],
         "parameters": [
           {
             "name": "limite",
@@ -406,6 +375,9 @@
     "/music/{id}": {
       "get": {
         "summary": "Obter uma música específica",
+        "tags": [
+          "Músicas"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -435,6 +407,9 @@
       },
       "put": {
         "summary": "Atualizar uma música",
+        "tags": [
+          "Músicas"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -474,6 +449,9 @@
       },
       "delete": {
         "summary": "Deletar uma música",
+        "tags": [
+          "Músicas"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -506,6 +484,9 @@
     "/playlist": {
       "post": {
         "summary": "Criar uma nova playlist",
+        "tags": [
+          "Playlists"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -531,6 +512,9 @@
       },
       "get": {
         "summary": "Obter playlists do usuário autenticado",
+        "tags": [
+          "Playlists"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -559,6 +543,9 @@
     "/playlist/{id}": {
       "put": {
         "summary": "Atualizar uma playlist",
+        "tags": [
+          "Playlists"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -598,6 +585,9 @@
       },
       "delete": {
         "summary": "Deletar uma playlist",
+        "tags": [
+          "Playlists"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -630,6 +620,9 @@
     "/member": {
       "post": {
         "summary": "Adicionar um novo membro",
+        "tags": [
+          "Membros"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -655,6 +648,9 @@
       },
       "get": {
         "summary": "Listar todos os membros",
+        "tags": [
+          "Membros"
+        ],
         "responses": {
           "200": {
             "description": "Lista de membros retornada com sucesso",
@@ -675,6 +671,9 @@
     "/member/{id}": {
       "get": {
         "summary": "Obter um membro específico",
+        "tags": [
+          "Membros"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -704,6 +703,9 @@
       },
       "put": {
         "summary": "Atualizar um membro",
+        "tags": [
+          "Membros"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -745,6 +747,9 @@
     "/admin": {
       "get": {
         "summary": "Obter todos os usuários",
+        "tags": [
+          "Administração"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -771,6 +776,9 @@
       },
       "post": {
         "summary": "Criar um novo administrador",
+        "tags": [
+          "Administração"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -798,6 +806,9 @@
     "/user/me": {
       "get": {
         "summary": "Obter o perfil do usuário autenticado",
+        "tags": [
+          "Usuários"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -823,6 +834,9 @@
     "/user/{id}": {
       "put": {
         "summary": "Atualizar o perfil do usuário",
+        "tags": [
+          "Usuários"
+        ],
         "security": [
           {
             "BearerAuth": []
@@ -862,6 +876,9 @@
       },
       "delete": {
         "summary": "Deletar um usuário",
+        "tags": [
+          "Usuários"
+        ],
         "security": [
           {
             "BearerAuth": []
