@@ -7,10 +7,10 @@ const router = express.Router();
 router.post("/", auth, addMember);
 
 // Obter todos os membros
-router.get("/", getAllMembers);
+router.get("/", auth, getAllMembers);
 
 // Obter um membro específico
-router.get("/:id", getMember);
+router.get("/:id", auth, getMember);
 
 // Atualizar um membro (somente admin se necessário)
 router.put("/:id", auth, updateMember);

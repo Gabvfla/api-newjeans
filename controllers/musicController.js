@@ -49,8 +49,8 @@ exports.getAllMusic = async (req, res) => {
   const limit = parseInt(limite);
   const page = parseInt(página);
 
-  if (![5, 10, 30].includes(limit)) {
-    return res.status(400).json({ msg: 'O parâmetro limite deve ser 5, 10 ou 30' });
+  if (![4, 8, 12].includes(limit)) {
+    return res.status(400).json({ msg: 'O parâmetro limite deve ser 4, 8 ou 12' });
   }
 
   try {

@@ -27,8 +27,8 @@ exports.getAllAlbums = async (req, res) => {
   const limit = parseInt(limite);
   const page = parseInt(página);
 
-  if (![5, 10, 30].includes(limit)) {
-    return res.status(400).json({ msg: 'O parâmetro limite deve ser 5, 10 ou 30' });
+  if (![3, 6, 9].includes(limit)) {
+    return res.status(400).json({ msg: 'O parâmetro limite deve ser 3, 6 ou 9' });
   }
 
   try {

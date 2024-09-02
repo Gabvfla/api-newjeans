@@ -7,10 +7,10 @@ const router = express.Router();
 router.post('/', auth, addAlbum);
 
 // Obter todos os álbuns
-router.get('/', getAllAlbums);
+router.get('/', auth, getAllAlbums);
 
 // Obter um álbum específico
-router.get('/:id', getAlbum);
+router.get('/:id', auth, getAlbum);
 
 // Atualizar álbum (somente admin)
 router.put('/:id', auth, updateAlbum);

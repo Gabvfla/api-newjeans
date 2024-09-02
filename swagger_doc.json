@@ -209,7 +209,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "enum": [5, 10, 30]
+              "enum": [3, 6, 9]
             },
             "description": "Número de álbuns por página"
           },
@@ -373,7 +373,7 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "enum": [5, 10, 30]
+              "enum": [4, 8, 12]
             },
             "description": "Número de músicas por página"
           },
