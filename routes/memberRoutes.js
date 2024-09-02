@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/", auth, addMember);
 
 // Obter todos os membros
-router.get("/", auth, getAllMembers);
+router.get("/", getAllMembers);
 
 // Obter um membro específico
 router.get("/:id", auth, getMember);

@@ -9,6 +9,7 @@ exports.addMusic = async (req, res) => {
   const { title, album, duration, writtenBy } = req.body;
 
   try {
+    // Verificar se o usuário autenticado é administrador
     const adminUser = await User.findById(req.user);
     if (!adminUser || !adminUser.isAdmin) {
       return res
@@ -16,20 +17,30 @@ exports.addMusic = async (req, res) => {
         .json({ msg: "Acesso negado. Somente administradores podem adicionar novas músicas." });
     }
 
-    const newMusic = new Music({ title, album, duration, writtenBy });
-    const music = await newMusic.save();
+    // Verificar se o ID do álbum existe no banco de dados
+    const albumDoc = await Album.findById(album);
+    if (!albumDoc) {
+      return res.status(400).json({ msg: 'Álbum não encontrado. Verifique o ID do álbum.' });
+    }
 
-    if (album) {
-      // Adicionar música à lista de faixas do álbum
-      const albumDoc = await Album.findById(album);
-      if (albumDoc) {
-        albumDoc.tracks.push(music._id);
-        await albumDoc.save();
+    // Verificar se o ID do membro existe no banco de dados
+    if (writtenBy) {
+      const memberDoc = await Member.findById(writtenBy);
+      if (!memberDoc) {
+        return res.status(400).json({ msg: 'Membro não encontrado. Verifique o ID do membro.' });
       }
     }
 
+    // Criar nova música
+    const newMusic = new Music({ title, album, duration, writtenBy });
+    const music = await newMusic.save();
+
+    // Adicionar música à lista de faixas do álbum
+    albumDoc.tracks.push(music._id);
+    await albumDoc.save();
+
+    // Adicionar música à lista de músicas escritas pelo membro (se aplicável)
     if (writtenBy) {
-      // Adicionar música à lista de membros 
       const memberDoc = await Member.findById(writtenBy);
       if (memberDoc) {
         memberDoc.writtenSongs.push(music._id);

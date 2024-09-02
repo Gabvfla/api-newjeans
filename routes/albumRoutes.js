@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', auth, addAlbum);
 
 // Obter todos os álbuns
-router.get('/', auth, getAllAlbums);
+router.get('/', getAllAlbums);
 
 // Obter um álbum específico
 router.get('/:id', auth, getAlbum);

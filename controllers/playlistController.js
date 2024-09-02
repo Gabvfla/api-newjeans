@@ -1,30 +1,37 @@
 const Playlist = require('../models/playlistModel');
 const Music = require('../models/musicModel');
+const User = require('../models/userModel');
 
-// Criar nova playlist
 exports.createPlaylist = async (req, res) => {
   const { title, musics, description } = req.body;
 
   try {
-    // Verifica se todas as músicas fornecidas existem
-    const validMusics = await Music.find({ _id: { $in: musics } });
-
-    if (validMusics.length !== musics.length) {
-      return res.status(400).json({ msg: 'Uma ou mais músicas não são válidas' });
+    // Verificar se o ID do usuário autenticado é válido e se o usuário existe no banco de dados
+    const user = await User.findById(req.user);
+    if (!user) {
+      return res.status(400).json({ msg: 'Usuário não encontrado. Verifique o ID do usuário.' });
     }
 
+    // Verificar se todas as músicas fornecidas existem no banco de dados
+    const validMusics = await Music.find({ _id: { $in: musics } });
+    if (validMusics.length !== musics.length) {
+      return res.status(400).json({ msg: 'Uma ou mais músicas não são válidas.' });
+    }
+
+    // Criar nova playlist
     const newPlaylist = new Playlist({
       title,
       description,
       musics,
-      createdBy: req.user // o req.user contém o ID do usuário autenticado
+      createdBy: user._id // Associa a playlist ao usuário autenticado
     });
 
     const savedPlaylist = await newPlaylist.save();
+    
     res.status(201).json({ playlist: savedPlaylist });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Erro ao criar playlist' });
+    res.status(500).json({ msg: 'Erro ao criar playlist', error: err.message });
   }
 };
 

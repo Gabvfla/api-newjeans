@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const Playlist = require('./playlistModel');
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  isAdmin: { type: Boolean, default: false }
+  isAdmin: { type: Boolean, default: false },
+  playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist' }]
 });
 
 // Antes de salvar, hash da senha

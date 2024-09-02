@@ -994,6 +994,11 @@
             "format": "objectId",
             "example": "Digita o ID das musicas"
           }
+        },
+        "user": {
+          "type": "string",
+          "format": "objectId",
+          "example": "Digita o ID do usuário"
         }
       },
       "required": [

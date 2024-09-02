@@ -13,7 +13,7 @@ const createFirstUser = async () => {
                 isAdmin: false
             });
             await user.save();
-            console.log('Usuário Criado com Sucesso');	
+            console.log('Gabriel Criado com Sucesso');	
         }
     } catch (error) {
         console.error('erro na criação do primeiro usuário', error.message);
