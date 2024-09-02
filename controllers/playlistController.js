@@ -27,7 +27,11 @@ exports.createPlaylist = async (req, res) => {
     });
 
     const savedPlaylist = await newPlaylist.save();
-    
+
+    // Atualiza o usuário com a nova playlist
+    user.playlists.push(savedPlaylist._id);
+    await user.save();
+
     res.status(201).json({ playlist: savedPlaylist });
   } catch (err) {
     console.error(err);
@@ -38,11 +42,13 @@ exports.createPlaylist = async (req, res) => {
 // Obter todas as playlists do usuário autenticado
 exports.getUserPlaylists = async (req, res) => {
   try {
+    // Buscar todas as playlists associadas ao usuário autenticado
     const playlists = await Playlist.find({ createdBy: req.user });
+
     res.status(200).json({ playlists });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Erro ao buscar playlists' });
+    res.status(500).json({ msg: 'Erro ao buscar playlists', error: err.message });
   }
 };
 
@@ -81,7 +87,7 @@ exports.updatePlaylist = async (req, res) => {
     res.status(200).json({ playlist: updatedPlaylist });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Erro ao atualizar playlist' });
+    res.status(500).json({ msg: 'Erro ao atualizar playlist', error: err.message });
   }
 };
 
@@ -97,15 +103,20 @@ exports.deletePlaylist = async (req, res) => {
     }
 
     // Verifica se o usuário autenticado é o criador da playlist
-    if (playlist.user.toString() !== req.user) {
+    if (playlist.createdBy.toString() !== req.user) {
       return res.status(403).json({ msg: 'Acesso negado' });
     }
 
     // Deletar a playlist
     await Playlist.findByIdAndDelete(id);
+
+    // Atualiza o usuário para remover a playlist deletada
+    await User.findByIdAndUpdate(req.user, { $pull: { playlists: id } });
+
     res.status(200).json({ msg: 'Playlist deletada com sucesso' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Erro ao deletar playlist' });
+    res.status(500).json({ msg: 'Erro ao deletar playlist', error: err.message });
   }
 };
+
