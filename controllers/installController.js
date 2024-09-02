@@ -19,11 +19,11 @@ const installDatabase = async (req, res) => {
 
         // Define os membros do NewJeans
         const membersData = [
-            { name: 'Minji', position: 'Leader', role: 'Lead Vocalist', profileImage: 'https://www.famousbirthdays.com/faces/minji-image.jpg' },
-            { name: 'Hanni', position: 'Lead Rapper', role: 'Main Rapper', profileImage: 'https://www.famousbirthdays.com/faces/hanni-image.jpg' },
-            { name: 'Danielle', position: 'Sub Rapper', role: 'Sub Rapper', profileImage: 'https://www.famousbirthdays.com/faces/danielle-popsinger-image.jpg' },
-            { name: 'Haerin', position: 'Lead Dancer', role: 'Main Dancer', profileImage: 'https://www.famousbirthdays.com/faces/haerin-image.jpg' },
-            { name: 'Hyein', position: 'Maknae', role: 'Vocalist', profileImage: 'https://www.famousbirthdays.com/faces/hyein-image.jpg' }
+            { name: 'Minji', position: 'Leader', role: 'Lead Vocalist', profileImage: 'https://www.famousbirthdays.com/faces/minji-image.jpg', writtenSongs: [] },
+            { name: 'Hanni', position: 'Lead Rapper', role: 'Main Rapper', profileImage: 'https://www.famousbirthdays.com/faces/hanni-image.jpg', writtenSongs: [] },
+            { name: 'Danielle', position: 'Sub Rapper', role: 'Sub Rapper', profileImage: 'https://www.famousbirthdays.com/faces/danielle-popsinger-image.jpg', writtenSongs: [] },
+            { name: 'Haerin', position: 'Lead Dancer', role: 'Main Dancer', profileImage: 'https://www.famousbirthdays.com/faces/haerin-image.jpg', writtenSongs: [] },
+            { name: 'Hyein', position: 'Maknae', role: 'Vocalist', profileImage: 'https://www.famousbirthdays.com/faces/hyein-image.jpg', writtenSongs: [] }
         ];
 
         // Cria os membros
@@ -63,7 +63,13 @@ const installDatabase = async (req, res) => {
         ];
 
         // Cria as músicas
-        const musics = await Music.insertMany(musicsData);
+        const musics = await Music.insertMany(musicsData); 
+        // Atualiza os membros com as músicas que escreveram
+        for (const music of musics) {
+            for (const memberId of music.writtenBy) {
+                await Member.findByIdAndUpdate(memberId, { $push: { writtenSongs: music._id } });
+  }
+}
 
         // Atualiza os álbuns com a lista de faixas
         await Promise.all(albums.map(async (album) => {

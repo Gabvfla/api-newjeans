@@ -2,10 +2,11 @@
 const Music = require('../models/musicModel');
 const Album = require('../models/albumModel');
 const User = require('../models/userModel');
+const Member = require('../models/memberModel');
 
 // Adicionar nova música e associá-la a um álbum
 exports.addMusic = async (req, res) => {
-  const { title, album, duration } = req.body;
+  const { title, album, duration, writtenBy } = req.body;
 
   try {
     const adminUser = await User.findById(req.user);
@@ -14,7 +15,8 @@ exports.addMusic = async (req, res) => {
         .status(403)
         .json({ msg: "Acesso negado. Somente administradores podem adicionar novas músicas." });
     }
-    const newMusic = new Music({ title, album, duration });
+
+    const newMusic = new Music({ title, album, duration, writtenBy });
     const music = await newMusic.save();
 
     if (album) {
@@ -23,6 +25,15 @@ exports.addMusic = async (req, res) => {
       if (albumDoc) {
         albumDoc.tracks.push(music._id);
         await albumDoc.save();
+      }
+    }
+
+    if (writtenBy) {
+      // Adicionar música à lista de membros 
+      const memberDoc = await Member.findById(writtenBy);
+      if (memberDoc) {
+        memberDoc.writtenSongs.push(music._id);
+        await memberDoc.save();
       }
     }
 

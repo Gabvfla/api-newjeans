@@ -897,11 +897,6 @@
     "Album": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e6d"
-        },
         "title": {
           "type": "string",
           "example": "NewJeans 1st EP"
@@ -926,11 +921,6 @@
     "Music": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e7e"
-        },
         "title": {
           "type": "string",
           "example": "Attention"
@@ -943,8 +933,13 @@
         "album": {
           "type": "string",
           "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e6d"
+          "example": "Digita o ID do album"
+        },
+        "writtenBy": {
+          "type": "string",
+          "example": "Digita o ID da membro"
         }
+
       },
       "required": [
         "title",
@@ -955,11 +950,6 @@
     "Member": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e8f"
-        },
         "name": {
           "type": "string",
           "example": "Minji"
@@ -989,11 +979,6 @@
     "Playlist": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string",
-          "format": "objectId",
-          "example": "64f6e72ef1b2c001f6471e9g"
-        },
         "title": {
           "type": "string",
           "example": "Newjeans GOATS"
@@ -1007,7 +992,7 @@
           "items": {
             "type": "string",
             "format": "objectId",
-            "example": "64f6e72ef1b2c001f6471e7e"
+            "example": "Digita o ID das musicas"
           }
         }
       },
