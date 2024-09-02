@@ -44,7 +44,6 @@
       "description": "🛠️ Para administradores poderem criar outros adms e ver todos usuários. 🛠️"
     }
   ],
-
   "paths": {
     "/install": {
       "get": {
@@ -198,6 +197,11 @@
         "summary": "Obter um álbum específico",
         "tags": [
           "Álbuns"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -377,6 +381,11 @@
         "summary": "Obter uma música específica",
         "tags": [
           "Músicas"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
         ],
         "parameters": [
           {
@@ -673,6 +682,11 @@
         "summary": "Obter um membro específico",
         "tags": [
           "Membros"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
         ],
         "parameters": [
           {
