@@ -69,6 +69,10 @@ newjeans-api/
 
 A API está documentada usando o padrão OpenAPI 3.0. Abaixo estão alguns exemplos de endpoints:
 
+## Instalação
+
+- **GET /install** : Instala o Banco de Dados na API
+
 ### Autenticação
 - **POST /auth/register**: Registrar um novo usuário.
 - **POST /auth/login**: Realizar login de usuário.
