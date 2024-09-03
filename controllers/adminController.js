@@ -40,7 +40,7 @@ exports.createAdmin = async (req, res) => {
             name,
             email,
             password,
-            isAdmin: true // Define explicitamente que este usuário é um administrador
+            isAdmin: true 
         });
 
         // Salvar o novo admin no banco de dados
