@@ -120,3 +120,20 @@ exports.deletePlaylist = async (req, res) => {
   }
 };
 
+//ver quantas playlits cada usuário tem
+exports.getPlaylistByUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, '_id name playlists').populate('playlists', 'title');
+    const userPlaylists = users.map((user) => ({
+      userId: user._id,
+      userName: user.name,
+      playlists: user.playlists.map((playlist) => ({playlistNome: playlist.title})),
+    }
+  )
+);
+
+    return res.status(200).json(userPlaylists);
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro ao buscar playlists dos usuários', error });
+  }
+};

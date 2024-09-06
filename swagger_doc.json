@@ -623,8 +623,42 @@
           "403": {
             "description": "Acesso negado"
           }
-        }
+        }    
+      },
+      "/playlist/all": {
+  "get": {
+    "summary": "Ver as playlists dos usuarios",
+    "tags": [
+      "Playlists"
+    ],
+    "security": [
+      {
+        "BearerAuth": []
       }
+    ],
+    "responses": {
+      "200": {
+        "description": "Lista de playlists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Playlist"
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Não autorizado"
+      },
+      "400": {
+        "description": "Erro ao recuperar playlists"
+      }
+    }
+  }
+}
     },
     "/member": {
       "post": {
@@ -1025,11 +1059,6 @@
             "format": "objectId",
             "example": "Digita o ID das musicas"
           }
-        },
-        "createdby": {
-          "type": "string",
-          "format": "objectId",
-          "example": "Digita o ID do usuário"
         }
       },
       "required": [
