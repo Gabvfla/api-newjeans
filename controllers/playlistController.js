@@ -63,15 +63,10 @@ exports.updatePlaylist = async (req, res) => {
     if (!playlist) {
       return res.status(404).json({ msg: 'Playlist não encontrada' });
     }
-
-    // Verifica se o usuário autenticado é o criador da playlist
-    if (playlist.createdBy.toString() !== req.user) {
-      return res.status(403).json({ msg: 'Acesso negado' });
-    }
-
     // Atualiza os dados da playlist
     playlist.title = title || playlist.title;
     playlist.description = description || playlist.description;
+    playlist.musics = musics || playlist.musics;
 
     if (musics) {
       const validMusics = await Music.find({ _id: { $in: musics } });
@@ -101,12 +96,6 @@ exports.deletePlaylist = async (req, res) => {
     if (!playlist) {
       return res.status(404).json({ msg: 'Playlist não encontrada' });
     }
-
-    // Verifica se o usuário autenticado é o criador da playlist
-    if (playlist.createdBy.toString() !== req.user) {
-      return res.status(403).json({ msg: 'Acesso negado' });
-    }
-
     // Deletar a playlist
     await Playlist.findByIdAndDelete(id);
 

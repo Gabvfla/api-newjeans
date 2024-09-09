@@ -7,12 +7,6 @@ exports.addMember = async (req, res) => {
     const { name, position, role, profileImage } = req.body;
 
     try {
-        const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem adicionar membros e olhe lá !!" });
-    }
         const newMember = new Member({ name, position, role, profileImage });
         const member = await newMember.save();
         res.status(201).json(member);
@@ -47,12 +41,6 @@ exports.updateMember = async (req, res) => {
     const { name, position, role, profileImage } = req.body;
 
     try {
-        const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem editar as membros." });
-    }
         const member = await Member.findById(req.params.id);
         if (!member) return res.status(404).json({ msg: 'Membro não encontrado' });
 

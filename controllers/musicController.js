@@ -9,14 +9,6 @@ exports.addMusic = async (req, res) => {
   const { title, album, duration, writtenBy } = req.body;
 
   try {
-    // Verificar se o usuário autenticado é administrador
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem adicionar novas músicas." });
-    }
-
     // Verificar se o ID do álbum existe no banco de dados
     const albumDoc = await Album.findById(album);
     if (!albumDoc) {
@@ -91,12 +83,6 @@ exports.updateMusic = async (req, res) => {
   const { title, album, duration } = req.body;
 
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem atualizar músicas." });
-    }
     let music = await Music.findById(req.params.id);
     if (!music) return res.status(404).json({ msg: 'Música não encontrada' });
 
@@ -114,12 +100,6 @@ exports.updateMusic = async (req, res) => {
 // Deletar música
 exports.deleteMusic = async (req, res) => {
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem deletar músicas." });
-    }
     const music = await Music.findById(req.params.id);
     if (!music) return res.status(404).json({ msg: 'Música não encontrada' });
 

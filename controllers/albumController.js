@@ -7,12 +7,6 @@ exports.addAlbum = async (req, res) => {
   const { title, releaseDate, genre, coverImage } = req.body;
 
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem adicionar albums." });
-    }
     const newAlbum = new Album({ title, releaseDate, genre, coverImage });
     const album = await newAlbum.save();
     res.json(album);
@@ -58,12 +52,6 @@ exports.updateAlbum = async (req, res) => {
   const { title, releaseDate, genre, coverImage } = req.body;
   
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem editar albums." });
-    }
     let album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 
@@ -82,12 +70,6 @@ exports.updateAlbum = async (req, res) => {
 // Deletar álbum
 exports.deleteAlbum = async (req, res) => {
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem deletar albums." });
-    }
     const album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ msg: 'Álbum não encontrado' });
 

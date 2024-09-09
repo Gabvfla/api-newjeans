@@ -17,13 +17,7 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    const adminUser = await User.findById(req.user);
     const requestedUserId = req.params.id;
-        
-    // Verifica se o usuário logado é um administrador ou se está tentando editar seu próprio perfil
-    if (!adminUser || (!adminUser.isAdmin && adminUser._id.toString() !== req.params.id)) {
-        return res.status(403).json({ msg: 'Acesso negado. Você só pode editar seu próprio perfil.' });
-    }
     // Busca o usuário a ser atualizado
     let user = await User.findById(requestedUserId);
     if (!user) return res.status(404).json({ msg: "Usuário não encontrado" });
@@ -50,13 +44,6 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const adminUser = await User.findById(req.user);
-        
-        // Verifica se o usuário logado é um administrador ou se está tentando deletar seu próprio perfil
-        if (!adminUser || (!adminUser.isAdmin && adminUser._id.toString() !== req.params.id)) {
-            return res.status(403).json({ msg: 'Acesso negado. Você só pode deletar seu próprio perfil.' });
-        }
-
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) return res.status(404).json({ msg: 'Usuário não encontrado' });
 

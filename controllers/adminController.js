@@ -5,13 +5,6 @@ const User = require("../models/userModel");
 // Obter todos os usuários (somente para admin)
 exports.getAllUsers = async (req, res) => {
   try {
-    const adminUser = await User.findById(req.user);
-    if (!adminUser || !adminUser.isAdmin) {
-      return res
-        .status(403)
-        .json({ msg: "Acesso negado. Somente administradores podem acessar." });
-    }
-
     const users = await User.find().select("-password");
     res.json(users);
   } catch (err) {
@@ -22,11 +15,6 @@ exports.getAllUsers = async (req, res) => {
 // Comando para um admin criar outro admin
 exports.createAdmin = async (req, res) => {
     try {
-        const adminUser = await User.findById(req.user);
-        if (!adminUser || !adminUser.isAdmin) {
-            return res.status(403).json({ msg: "Acesso negado. Somente administradores podem acessar." });
-        }
-
         const { name, email, password } = req.body;
 
         // Verificar se o usuário já existe pelo email

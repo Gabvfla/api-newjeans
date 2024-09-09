@@ -624,8 +624,9 @@
             "description": "Acesso negado"
           }
         }    
-      },
-      "/playlist/all": {
+      }
+    },
+    "/playlist/all": {
   "get": {
     "summary": "Ver as playlists dos usuarios",
     "tags": [
@@ -658,8 +659,7 @@
       }
     }
   }
-}
-    },
+},
     "/member": {
       "post": {
         "summary": "Adicionar um novo membro",
