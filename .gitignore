@@ -6,6 +6,6 @@ node_modules/
 
 # Ignore documment files
 
-package-lock.json/
-package.json/
-swagger_doc.json/
+package-lock.json
+package.json
+swagger_doc.json
