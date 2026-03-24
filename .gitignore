@@ -3,3 +3,9 @@ node_modules/
 
 # Ignore environment variables file
 .env
+
+# Ignore documment files
+
+package-lock.json/
+package.json/
+swagger_doc.json/
